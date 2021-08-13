@@ -1,0 +1,47 @@
+---
+# tasks file for nginx_vagrant_vm
+
+- name: Copy the user public key into the Vagrant VM for the Vagrant user
+  ansible.posix.authorized_key:
+    user: vagrant
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: Install tracer
+  yum:
+    name: 'tracer'
+    state: latest
+  become: yes 
+
+- name: Update the OS
+  yum:
+    name: '*'
+    state: latest
+  become: yes 
+
+- name: Install podman
+  yum:
+    name: 'podman*'
+    state: latest
+  become: yes 
+
+- name: Install skopeo
+  yum:
+    name: 'skopeo*'
+    state: latest
+  become: yes 
+
+- name: Install buildah
+  yum:
+    name: 'buildah*'
+    state: latest
+  become: yes 
+
+- name: Install buildah
+  yum:
+    name: 'vim'
+    state: latest
+  become: yes 
+
+
+- debug: var=ansible_all_ipv4_addresses
